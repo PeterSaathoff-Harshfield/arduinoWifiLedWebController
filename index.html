@@ -23,7 +23,6 @@
     </br>
     <button style="font-size: 3em; border: none; background-color: #ddd;" onclick="javascript: update('/left');" class="btn btn-primary mb-2">&#8592</button>
     <button style="font-size: 3em; border: none; background-color: #ddd;" onclick="javascript: update('/right');" class="btn btn-primary mb-2">&#8594</button>
-		
 	
     <script>
       function update(value) {
@@ -53,7 +52,7 @@
 		update('/json');
 		setInterval(function() {
 			update('/json');
-		}, 200);
+		}, 1000);
 	</script>
 	
   </body>
