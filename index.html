@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<head>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+</head>
+<html>
+  <body style="font-family: 'Helvetica';">
+    <h1 style="font-size: 4em;">Lights</h1>
+    <span style="font-size: 3em" id="powerStatus"> </span>
+    <span style="font-size: 3em">&nbsp</span>
+    <button style="font-size: 4em; border: none; background-color: #ddd" onclick="javascript: update('/powerToggle');" class="btn btn-primary mb-2" id="powerButton">&#8204</button>
+    </br>
+    </br>
+    <button style="font-size: 3em; border: none; background-color: #ddd" onclick="javascript: update('/white');" class="btn btn-primary mb-2">White</button>
+    <button style="font-size: 3em; border: none; background-color: #ddd" onclick="javascript: update('/solidColors');" class="btn btn-primary mb-2">Solid</button>
+    <button style="font-size: 3em; border: none; background-color: #ddd" onclick="javascript: update('/random');" class="btn btn-primary mb-2">Random</button>
+    </br>
+    <button style="font-size: 3em; border: none; background-color: #ddd" onclick="javascript: update('/spectrum');" class="btn btn-primary mb-2">Spectrum</button>
+    <button style="font-size: 3em; border: none; background-color: #ddd" onclick="javascript: update('/gradient');" class="btn btn-primary mb-2">Gradient</button>
+    </br>
+    <button style="font-size: 3em; border: none; background-color: #ddd" onclick="javascript: update('/flow');" class="btn btn-primary mb-2">Flow</button>
+    <button style="font-size: 3em; border: none; background-color: #ddd" onclick="javascript: update('/red');" class="btn btn-primary mb-2">Red</button>
+    </br>
+    </br>
+    <button style="font-size: 3em; border: none; background-color: #ddd;" onclick="javascript: update('/left');" class="btn btn-primary mb-2">&#8592</button>
+    <button style="font-size: 3em; border: none; background-color: #ddd;" onclick="javascript: update('/right');" class="btn btn-primary mb-2">&#8594</button>
+		
+	
+    <script>
+      function update(value) {
+          $.ajax({
+              method: 'get',
+              url: value,
+              success: function(data) {
+                  
+                  if (data.error) {
+                    
+                  }
+                  else {
+					
+	                var redColor = data["r"];
+                    var greenColor = data["g"];
+                    var blueColor = data["b"];
+                    
+                    $("body").css("background-color", "rgb(" + String(parseInt(String(redColor))) + "," + String(parseInt(String(greenColor))) + "," + String(parseInt(String(blueColor))) + ")");
+                    $("#powerButton").text(String(data["powerButtonText"]));
+                    $("#powerStatus").text(String(data["powerStatus"]));
+                  }
+              }
+          });
+      }
+    </script>
+	<script>
+		update('/json');
+		setInterval(function() {
+			update('/json');
+		}, 200);
+	</script>
+	
+  </body>
+</html>
