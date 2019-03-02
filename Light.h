@@ -1,6 +1,6 @@
 class Light {
 private:
-  bool logging = true;
+  bool logging = false;
   
   int redPin;
   int greenPin;

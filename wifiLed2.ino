@@ -6,14 +6,6 @@
 
 #include "Controller.h"
 #include "Light.h"
-// #include "White.h"
-// #include "Spectrum.h"
-// #include "SolidColors.h"
-// #include "Gradient.h"
-// #include "Random.h"
-// #include "Flow.h"
-// #include "RedPulse.h"
-
 
 int redPin = 6;
 int greenPin = 5;
@@ -28,14 +20,13 @@ int currentColor[3] = {100, 100, 100};
 long currentTime = millis();
 long lastTime = millis();
 
-
-
+// store these in a file called "arduino_secrets.h" with #DEFINE SECRET_SSID etc.
 char ssid[] = SECRET_SSID;        // your network SSID (name)
 char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
 int keyIndex = 0;                 // your network key Index number (needed only for WEP)
 int status = WL_IDLE_STATUS;
 
-
+//http headers and response bodies
 
 char* htmlHeader =
 "HTTP/1.1 200 OK\n\
@@ -53,14 +44,14 @@ Connection: close\n\
 
 char* jsonResponse = "";
 
-
+//memory monitoring
 extern unsigned int __bss_end;
 extern unsigned int __heap_start;
 extern void *__brkval;
 int freeMemory() {
  int free_memory;
 
- if((int)__brkval == 0)
+ if ((int)__brkval == 0)
    free_memory = ((int)&free_memory) - ((int)&__bss_end);
  else
    free_memory = ((int)&free_memory) - ((int)__brkval);
@@ -73,12 +64,10 @@ WiFiServer server(80);
 void setup() {
   Serial.begin(115200);
   
-  
-  
   while (!Serial) {
     // wait for serial port to connect. Needed for native USB port only
   }
-
+  
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE) {
     Serial.println("Communication with WiFi module failed!");
@@ -155,6 +144,7 @@ void loop() {
           
           char b[128];
           
+          //monitor incoming requests
           // Serial.print("path: ");
           // Serial.println(path);
           
@@ -203,13 +193,10 @@ void loop() {
             client.println(jsonResponse);
             
           }
-
-          
-          
-          
           
           break;
         }
+        
         if (c == '\n') {
           // you're starting a new line
           currentLineIsBlank = true;
@@ -226,8 +213,9 @@ void loop() {
     // close the connection:
     client.stop();
 
-    Serial.print("free memory");
-    Serial.println(freeMemory());
+    //monitor the arduino's memort usage
+    // Serial.print("free memory");
+    // Serial.println(freeMemory());
 
   }
 }
